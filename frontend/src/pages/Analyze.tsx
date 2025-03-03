@@ -20,10 +20,36 @@ const Analyze = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        backgroundColor: "white",
+        position: "absolute", 
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+    >
+      <style>
+        {`
+          body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+          }
+        `}
+      </style>
       {/* Navbar */}
-      <AppBar position="static" color="default" sx={{ px: 4, boxShadow: 0 }}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <AppBar position="fixed" color="default">
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          {/* Left Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button color="inherit" sx={{ textTransform: "none" }}>
               Home
@@ -32,24 +58,34 @@ const Analyze = () => {
               Analyze
             </Button>
           </Box>
+
+          {/* Center Section */}
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: 50,
-              height: 50,
-              backgroundColor: "white",
-              borderRadius: "50%",
+              width: "50px",
+              height: "50px",
+              backgroundColor: "black",
+              borderRadius: "50%", 
+              mx: 2, 
             }}
           >
             <Typography
               variant="h6"
-              sx={{ color: "white", fontWeight: "bold", fontSize: "1.5rem" }}
+              sx={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+              }}
             >
               M
             </Typography>
           </Box>
+
+          {/* Right Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button color="inherit" sx={{ textTransform: "none" }}>
               Health Topics
@@ -59,16 +95,28 @@ const Analyze = () => {
       </AppBar>
 
       {/* Upload Section */}
-      <Container sx={{ mt: 4, textAlign: "center" }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Container
+        sx={{
+          mt: 10, 
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start", 
+        }}
+      >
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          color="black" 
+          sx={{ textAlign: "left" }} 
+          gutterBottom
+        >
           Upload Picture
         </Typography>
         <Card
           sx={{
             width: "100%",
-            maxWidth: 600,
-            margin: "auto",
-            height: 300,
+            maxWidth: 2000,
+            height: 500,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -102,8 +150,10 @@ const Analyze = () => {
               />
             ) : (
               <>
-                <PhotoCamera sx={{ fontSize: 60, color: "white" }} />
-                <Typography color="white">Click to choose picture</Typography>
+                <PhotoCamera sx={{ fontSize: 200, color: "white" }} />
+                <Typography color="white" variant="h5" fontWeight="bold">
+                  Click to choose picture
+                </Typography>
               </>
             )}
           </label>
