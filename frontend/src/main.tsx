@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Homepage from "./pages/Homepage";
 import Analyze from "./pages/Analyze";
+import Result from "./pages/Result"; 
 
 const theme = createTheme({
   typography: {
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/analyze" element={<Analyze />} />
+          <Route path="/result" element={<Result />} />
         </Routes>
       </Router>
     </ThemeProvider>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 
 const Homepage = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex h-screen bg-[#f0f0f0]">
       <CssBaseline />
@@ -20,7 +22,7 @@ const Homepage = () => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "#fff",
+          backgroundColor: "#000", // เปลี่ยนพื้นหลังจากขาวเป็นดำ
           boxShadow: 0,
           borderBottom: "1px solid #ddd",
         }}
@@ -35,8 +37,17 @@ const Homepage = () => {
         >
           {/* Left Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button sx={{ textTransform: "none", color: "#000000" }}>Home</Button>
-            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }}>
+            <Button
+              sx={{ textTransform: "none", color: "#fff" }} // ปรับสีปุ่มจากดำเป็นขาว
+              onClick={() => navigate("/")}
+            >
+              Home
+            </Button>
+            <Button
+              color="inherit"
+              sx={{ textTransform: "none", color: "#fff" }} // ปรับสีปุ่มจากดำเป็นขาว
+              onClick={() => navigate("/analyze")}
+            >
               Analyze
             </Button>
           </Box>
@@ -49,15 +60,15 @@ const Homepage = () => {
               alignItems: "center",
               width: "50px",
               height: "50px",
-              backgroundColor: "black",
-              borderRadius: "50%", // ทำให้กรอบเป็นวงกลม
-              mx: 2, // ระยะห่างด้านข้าง
+              backgroundColor: "#fff", // ปรับพื้นหลังจากดำเป็นขาว
+              borderRadius: "50%",
+              mx: 2,
             }}
           >
             <Typography
               variant="h6"
               sx={{
-                color: "white",
+                color: "black", // ปรับสีตัวอักษรจากขาวเป็นดำ
                 fontWeight: "bold",
                 fontSize: "1.5rem",
                 textAlign: "center",
@@ -69,7 +80,10 @@ const Homepage = () => {
 
           {/* Right Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }}>
+            <Button
+              color="inherit"
+              sx={{ textTransform: "none", color: "#fff" }} // ปรับสีปุ่มจากดำเป็นขาว
+            >
               Health Topics
             </Button>
           </Box>
@@ -79,7 +93,7 @@ const Homepage = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          height: "50vh",
+          height: "70vh",
           backgroundImage:
             "url('/images/image 7.png'), linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)",
           backgroundSize: "cover",
@@ -99,7 +113,7 @@ const Homepage = () => {
           Discover the ultimate tool for malaria detection
         </Typography>
         <Button variant="contained" color="warning" size="large">
-          Get Start
+          Get Started
         </Button>
       </Box>
 
@@ -118,15 +132,52 @@ const Homepage = () => {
         </Typography>
 
         <Grid2 container spacing={4}>
-          {[1, 2, 3].map((item) => (
-            <Grid2 size={{ xs: 12, md: 4 }} key={item}>
+          {[
+            {
+              id: 1,
+              title: "Image Analysis",
+              description:
+                "MalAIria starts by analyzing blood smear images using high-resolution imaging techniques.",
+              icon: "🖼️",
+            },
+            {
+              id: 2,
+              title: "AI Detection",
+              description:
+                "Advanced AI algorithms detect malaria parasites and determine their life stage with high accuracy.",
+              icon: "🤖",
+            },
+            {
+              id: 3,
+              title: "Results & Diagnosis",
+              description:
+                "The system provides instant results, allowing healthcare professionals to make quick decisions.",
+              icon: "📊",
+            },
+          ].map((item) => (
+            <Grid2 size={{ xs: 12, md: 4 }} key={item.id}>
               <Card
                 sx={{
                   height: "400px",
                   backgroundColor: "#94a79a",
                   borderRadius: "12px",
+                  p: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  color: "white",
                 }}
-              ></Card>
+              >
+                <Typography variant="h4">{item.icon}</Typography>
+                <Typography variant="h6" fontWeight="bold" sx={{ mt: 2 }}>
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  {item.description}
+                </Typography>
+              </Card>
             </Grid2>
           ))}
         </Grid2>
@@ -155,8 +206,24 @@ const Homepage = () => {
         </Grid2>
 
         <Grid2 container spacing={2} sx={{ mt: 4 }}>
-          {[1, 2, 3].map((item) => (
-            <Grid2 size={{ xs: 12, md: 6 }} key={item}>
+          {[
+            {
+              id: 1,
+              title: "Malaria Symptoms",
+              route: "/health-topic/malaria-symptoms",
+            },
+            {
+              id: 2,
+              title: "Prevention Methods",
+              route: "/health-topic/prevention",
+            },
+            {
+              id: 3,
+              title: "Treatment Options",
+              route: "/health-topic/treatment",
+            },
+          ].map((item) => (
+            <Grid2 size={{ xs: 12, md: 6 }} key={item.id}>
               <Card
                 sx={{
                   p: 2,
@@ -164,7 +231,10 @@ const Homepage = () => {
                   alignItems: "center",
                   boxShadow: 1,
                   borderRadius: "8px",
+                  cursor: "pointer", // เปลี่ยนเป็น cursor pointer เพื่อให้รู้ว่ากดได้
+                  "&:hover": { boxShadow: 3 }, // ทำให้มี effect ตอน hover
                 }}
+                onClick={() => navigate(item.route)} // เพิ่ม event คลิก
               >
                 <Box
                   sx={{
@@ -175,10 +245,7 @@ const Homepage = () => {
                     mr: 2,
                   }}
                 ></Box>
-                <Typography variant="body2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do Lorem ipsum dolor sit amet.
-                </Typography>
+                <Typography variant="body2">{item.title}</Typography>
               </Card>
             </Grid2>
           ))}
