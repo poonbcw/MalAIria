@@ -8,45 +8,35 @@ import {
   AppBar,
   Toolbar,
   Card,
-  Grid,
+  Grid2,
   Container,
 } from "@mui/material";
-
-// const theme = createTheme({
-//   palette: {
-//     mode: "light",
-//     primary: {
-//       main: "#000000",
-//     },
-//     secondary: {
-//       main: "#94a79a",
-//     },
-//     warning: {
-//       main: "#f3ca8c",
-//     },
-//   },
-// });
 
 const Homepage = () => {
   return (
     <div className="flex h-screen bg-[#f0f0f0]">
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       {/* Navbar */}
-      <AppBar position="fixed" color="default" sx={{ height: "100vh" }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: "#fff",
+          boxShadow: 0,
+          borderBottom: "1px solid #ddd",
+        }}
+      >
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            gap: 4,
+            gap: 5,
           }}
         >
           {/* Left Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button color="inherit" sx={{ textTransform: "none" }}>
-              Home
-            </Button>
-            <Button color="inherit" sx={{ textTransform: "none" }}>
+            <Button sx={{ textTransform: "none", color: "#000000" }}>Home</Button>
+            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }}>
               Analyze
             </Button>
           </Box>
@@ -79,7 +69,7 @@ const Homepage = () => {
 
           {/* Right Section */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button color="inherit" sx={{ textTransform: "none" }}>
+            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }}>
               Health Topics
             </Button>
           </Box>
@@ -90,7 +80,8 @@ const Homepage = () => {
       <Box
         sx={{
           height: "50vh",
-          backgroundImage: "url('/images/image 7.png')",
+          backgroundImage:
+            "url('/images/image 7.png'), linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "flex",
@@ -113,12 +104,7 @@ const Homepage = () => {
       </Box>
 
       {/* Content Section */}
-      <Container
-        sx={{
-          py: 6,
-          textAlign: "left", // ชิดซ้าย
-        }}
-      >
+      <Container sx={{ py: 6, textAlign: "left" }}>
         <Typography variant="h4" gutterBottom>
           What is MalAIria?
         </Typography>
@@ -131,40 +117,33 @@ const Homepage = () => {
           life stages, providing results almost instantly.
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid2 container spacing={4}>
           {[1, 2, 3].map((item) => (
-            <Grid item xs={12} sm={4} key={item}>
+            <Grid2 size={{ xs: 12, md: 4 }} key={item}>
               <Card
                 sx={{
-                  height: "200px",
+                  height: "400px",
                   backgroundColor: "#94a79a",
-                  borderRadius: "8px",
+                  borderRadius: "12px",
                 }}
               ></Card>
-            </Grid>
+            </Grid2>
           ))}
-        </Grid>
+        </Grid2>
       </Container>
 
       {/* Footer Section */}
-      <Box
-        sx={{
-          px: 4,
-          py: 6,
-          bgcolor: "#f5f5f5",
-          textAlign: "left", // ชิดซ้าย
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={8}>
+      <Box sx={{ px: 4, py: 6, bgcolor: "#f5f5f5", textAlign: "left" }}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ xs: 12, md: 8 }}>
             <Typography variant="body2" color="textSecondary">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </Typography>
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 height: "100%",
@@ -172,12 +151,12 @@ const Homepage = () => {
                 borderRadius: "8px",
               }}
             ></Card>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
 
-        <Grid container spacing={2} sx={{ mt: 4 }}>
+        <Grid2 container spacing={2} sx={{ mt: 4 }}>
           {[1, 2, 3].map((item) => (
-            <Grid item xs={12} sm={6} key={item}>
+            <Grid2 size={{ xs: 12, md: 6 }} key={item}>
               <Card
                 sx={{
                   p: 2,
@@ -201,9 +180,9 @@ const Homepage = () => {
                   do Lorem ipsum dolor sit amet.
                 </Typography>
               </Card>
-            </Grid>
+            </Grid2>
           ))}
-        </Grid>
+        </Grid2>
       </Box>
     </div>
   );
