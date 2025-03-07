@@ -1,0 +1,40 @@
+.custom-shape-divider-top-1741353578 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1741353578 svg {
+    position: relative;
+    display: block;
+    width: calc(152% + 1.3px);
+    height: 500px;
+}
+
+.custom-shape-divider-top-1741353578 .shape-fill {
+    fill: #DD5746;
+}
+
+.spacer {
+    aspect-ratio: 500/300;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .layer1 {
+    background-image: url('/images/layer1.svg');
+  }
+  
+  /* .layer2 {
+    background-image: url('./layer2.svg');
+  } */
+
+  .flip {
+    transform: rotate(180deg);
+  }
