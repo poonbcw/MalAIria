@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  AppBar,
-  Toolbar,
-  Button,
-  Card,
-  Container,
-} from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Button } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 
 const Analyze = () => {
@@ -21,151 +13,86 @@ const Analyze = () => {
     }
   };
 
-  // ใช้ useEffect เพื่อตรวจจับการเปลี่ยนแปลงของ selectedImage และทำให้รอ 3 วิก่อน redirect
   useEffect(() => {
     if (selectedImage) {
       const timer = setTimeout(() => {
         navigate("/result");
       }, 1000);
-
-      return () => clearTimeout(timer); // เคลียร์ timeout ถ้ามีการเปลี่ยนแปลงก่อนครบ 3 วินาที
+      return () => clearTimeout(timer);
     }
   }, [selectedImage, navigate]);
 
   return (
-    <Box>
+    <Box sx={{ backgroundColor: "#D65C47", minHeight: "100vh", textAlign: "center" }}>
       {/* Navbar */}
-      <AppBar
-        position="fixed"
-        sx={{
-          backgroundColor: "#fff",
-          boxShadow: 0,
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 5,
-          }}
-        >
-          {/* Left Section */}
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Button
-              sx={{ textTransform: "none", color: "#000000" }}
-              onClick={() => navigate("/")}
-            >
-              Home
-            </Button>
-            <Button
-              color="inherit"
-              sx={{ textTransform: "none", color: "#000000" }}
+      <nav className="z-20 relative flex justify-between items-center text-white px-6 py-1">
+          {/* Logo and Title in Column */}
+          <div className="flex flex-col items-center" onClick={() => navigate("/")}>
+            <img
+              src="/images/Mm.png"
+              className="h-24 rounded-full"
+              alt="MalAIria Logo"
+            />
+            <div className="text-2xl font-bold">MalAIria</div>
+          </div>
+
+          {/* Navbar Links */}
+          <div className="flex space-x-9 text-lg mb-10">
+            <button
               onClick={() => navigate("/analyze")}
+              className="hover:underline transition-all duration-300 ease-in-out"
             >
               Analyze
-            </Button>
-          </Box>
-
-          {/* Center Section */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "50px",
-              height: "50px",
-              backgroundColor: "black",
-              borderRadius: "50%",
-              mx: 2,
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "1.5rem",
-                textAlign: "center",
-              }}
+            </button>
+            <button
+              onClick={() => navigate("/health-topic")}
+              className="hover:underline transition-all duration-300 ease-in-out"
             >
-              M
-            </Typography>
-          </Box>
-
-          {/* Right Section */}
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Button
-              color="inherit"
-              sx={{ textTransform: "none", color: "#000000" }}
+              Health Topic
+            </button>
+            <button
+              onClick={() => navigate("/about")}
+              className="hover:underline transition-all duration-300 ease-in-out"
             >
-              Health Topics
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
+              About Us
+            </button>
+          </div>
+        </nav>
 
       {/* Upload Section */}
-      <Container sx={{ mt: 10, textAlign: "left" }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
-          Upload Picture
-        </Typography>
-        <Card
-          sx={{
-            width: "100%",
-            maxWidth: 1200,
-            margin: "auto",
-            height: 500,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#94a79a",
-            borderRadius: 4,
-            cursor: "pointer",
-          }}
-        >
-          <label
-            htmlFor="image-upload"
-            style={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              cursor: "pointer",
-            }}
-          >
-            {selectedImage ? (
-              <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Uploaded"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: 4,
-                }}
-              />
-            ) : (
-              <>
-                <PhotoCamera sx={{ fontSize: 200, color: "white" }} />
-                <Typography color="white" variant="h5">
-                  Click to choose picture
-                </Typography>
-              </>
-            )}
-          </label>
-          <input
-            id="image-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-          />
-        </Card>
-      </Container>
+      <Typography variant="h5" fontWeight="bold" color="white" sx={{ mt: 5 }}>
+        Upload picture to start analyze
+      </Typography>
+
+      <Box
+        sx={{
+          width: "60%",
+          height: 300,
+          border: "4px dashed white",
+          borderRadius: 5,
+          mx: "auto",
+          mt: 3,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+        }}
+      >
+        <label htmlFor="image-upload">
+          {selectedImage ? (
+            <img src={URL.createObjectURL(selectedImage)} alt="Uploaded" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          ) : (
+            <>
+              <PhotoCamera sx={{ fontSize: 100, color: "white" }} />
+              <Typography color="white" variant="h6">
+                Click to choose picture
+              </Typography>
+            </>
+          )}
+        </label>
+        <input id="image-upload" type="file" accept="image/*" onChange={handleImageUpload} style={{ display: "none" }} />
+      </Box>
     </Box>
   );
 };

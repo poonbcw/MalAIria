@@ -1,91 +1,107 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  AppBar,
-  Toolbar,
-  Button,
-  Card,
-  Container,
-} from "@mui/material";
+import { motion } from "framer-motion";
 
-const ResultPage = () => {
+const Result: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Box>
+    <div className="flex flex-col min-h-screen bg-[#FEFCFF]">
       {/* Navbar */}
-      <AppBar
-        position="fixed"
-        sx={{
-          backgroundColor: "#fff",
-          boxShadow: 0,
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 5,
-          }}
-        >
-          {/* Left Section */}
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Button sx={{ textTransform: "none", color: "#000000" }} onClick={() => navigate("/")}>Home</Button>
-            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }} onClick={() => navigate("/analyze")}>Analyze</Button>
-          </Box>
-          
-          {/* Center Section */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "50px",
-              height: "50px",
-              backgroundColor: "black",
-              borderRadius: "50%",
-              mx: 2,
-            }}
-          >
-            <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", fontSize: "1.5rem" }}>M</Typography>
-          </Box>
-          
-          {/* Right Section */}
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Button color="inherit" sx={{ textTransform: "none", color: "#000000" }}>Health Topics</Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
+      <nav className="z-20 relative flex justify-between items-center text-white px-6 py-1 bg-[#DD5746] shadow-md">
+        {/* Logo and Title */}
+        <div className="flex flex-col items-center" onClick={() => navigate("/")}>
+          <img
+            src="/images/Mm.png"
+            className="h-24 rounded-full"
+            alt="MalAIria Logo"
+          />
+          <div className="text-2xl font-bold">MalAIria</div>
+        </div>
 
-      {/* Result Section */}
-      <Container sx={{ mt: 10, textAlign: "center" }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>Result</Typography>
-        <Card
-          sx={{
-            width: "100%",
-            maxWidth: 1200,
-            margin: "auto",
-            height: 300,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#94a79a",
-            borderRadius: 4,
-          }}
+        {/* Navbar Links */}
+        <div className="flex space-x-9 text-lg mb-10">
+          <button
+            onClick={() => navigate("/analyze")}
+            className="hover:underline transition-all duration-300 ease-in-out"
+          >
+            Analyze
+          </button>
+          <button
+            onClick={() => navigate("/health-topic")}
+            className="hover:underline transition-all duration-300 ease-in-out"
+          >
+            Health Topic
+          </button>
+          <button
+            onClick={() => navigate("/about")}
+            className="hover:underline transition-all duration-300 ease-in-out"
+          >
+            About Us
+          </button>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="flex flex-col items-center mt-12 px-6">
+        {/* Title */}
+        <motion.h1
+          className="text-4xl font-bold text-[#DD5746]"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
         >
-          {/* Placeholder for result visualization */}
-        </Card>
-        <Button variant="contained" color="error" sx={{ mt: 3, fontSize: "1.2rem" }}>DANGER</Button>
-        <Typography mt={2} textAlign="left">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quo ipsum cumque laudantium, asperiores aperiam quasi alias maiores unde facere, ratione excepturi suscipit corrupti quae, ab possimus? Illo, recusandae ex?
-        </Typography>
-      </Container>
-    </Box>
+          Malaria Test Result
+        </motion.h1>
+
+        {/* Result Card */}
+        <motion.div
+          className="bg-[#DD5746] shadow-md rounded-lg p-6 mt-8 w-[80%] max-w-3xl text-center border-2 border-[#DD5746]"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-2xl font-semibold text-[#000000]">
+            Probability of Malaria:
+          </h2>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-[#EFE8D6] rounded-full h-6 mt-4 relative border border-[#F1C878]">
+            <div
+              className="bg-[#F1C878] h-6 rounded-full text-white flex items-center justify-center font-semibold"
+              style={{ width: "75%" }}
+            >
+              75%
+            </div>
+          </div>
+
+          {/* Result Message */}
+          <p className="mt-4 text-lg text-[#000000]">
+            Our AI model detects a **75% probability** of malaria. Please consult with a medical professional for further assessment.
+          </p>
+        </motion.div>
+
+        {/* Recommendation Section */}
+        <motion.div
+          className="bg-[#FEFCFF] shadow-md rounded-lg p-6 mt-8 w-[80%] max-w-3xl text-center border-2 border-[#DD5746]"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h2 className="text-2xl font-semibold text-[#F1C878]">What’s Next?</h2>
+          <p className="mt-2 text-lg text-[#000000]">
+            If you experience symptoms such as fever, chills, or nausea, we recommend visiting a doctor.
+          </p>
+          <button
+            onClick={() => navigate("/health-topic")}
+            className="mt-4 px-6 py-3 bg-[#DD5746] text-white font-semibold rounded-lg shadow-md hover:bg-[#F1C878]"
+          >
+            Learn More
+          </button>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
-export default ResultPage;
+export default Result;
