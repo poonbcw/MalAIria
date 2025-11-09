@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "../components/Homepage.css";
+import { useNavigate } from "react-router-dom";
 
 const Homepage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col min-h-screen bg-[#EFE8D6]">
       <div className="spacer layer1">
@@ -21,7 +24,7 @@ const Homepage: React.FC = () => {
           {/* Navbar Links */}
           <div className="flex space-x-9 text-lg mb-10">
             <a
-              href="#"
+              href="/analyze"
               className="hover:underline transition-all duration-300 ease-in-out"
             >
               Analyze
@@ -46,7 +49,10 @@ const Homepage: React.FC = () => {
           <h1 className="text-4xl font-bold">
             Discover the ultimate tool for malaria detection
           </h1>
-          <button className="mt-4 px-6 py-3 bg-[#FCE5CD] text-black font-semibold rounded-lg shadow-md hover:bg-[#FFD6A5]">
+          <button
+            onClick={() => navigate(`/analyze`)}
+            className="mt-4 px-6 py-3 bg-[#FCE5CD] text-black font-semibold rounded-lg shadow-md hover:bg-[#FFD6A5]"
+          >
             GET STARTED
           </button>
         </div>
