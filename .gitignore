@@ -5,3 +5,5 @@ backend/firebase-service-account.json.json
 .vercel
 .env
 .env*.local
+
+frontend/src/firebase.ts
