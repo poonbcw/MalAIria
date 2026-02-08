@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
+    "google-auth-library": "^10.5.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10"
+  }
+}

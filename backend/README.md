@@ -5,13 +5,11 @@
 
 # Sync database
 
-- Pushing
+# 1. บันทึกความเปลี่ยนแปลงลง Database (สร้างคอลัมน์ hn)
+npx prisma migrate dev --name add_hn_to_analysis
 
-  - `npm run db:push`
-
-- Migrating
-  - `npm run db:generate`
-  - `npm run db:migrate`
+# 2. สร้าง Prisma Client ใหม่เพื่อให้ TypeScript รู้จักฟิลด์ hn
+npx prisma generate
 
 # Dev operations
 

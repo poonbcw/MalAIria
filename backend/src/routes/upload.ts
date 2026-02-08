@@ -1,75 +1,11 @@
-// import { Router } from "express";
-// import multer from "multer";
-// import path from "path";
-// import fs from "fs";
-// import { PrismaClient } from "@prisma/client";
-// import { spawn } from "child_process";
-
-// const router = Router();
-// const prisma = new PrismaClient();
-// const upload = multer({ dest: "uploads/" });
-
-// router.post("/upload", upload.single("image"), async (req, res) => {
-//   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-//   const filepath = path.resolve(req.file.path);
-
-//   // เรียก Python script วิเคราะห์
-//   const python = spawn("python3", ["path/to/model_inference.py", filepath]);
-
-//   let resultData = "";
-//   python.stdout.on("data", (data) => {
-//     resultData += data.toString();
-//   });
-
-//   python.on("close", async (code) => {
-//     // ลบไฟล์อัพโหลดทิ้งหลังวิเคราะห์เสร็จ
-//     fs.unlinkSync(filepath);
-
-//     if (code !== 0) {
-//       return res.status(500).json({ error: "Model inference failed" });
-//     }
-
-//     let resultJson;
-//     try {
-//       resultJson = JSON.parse(resultData);
-//     } catch {
-//       resultJson = { result: "unknown", confidence: 0 };
-//     }
-
-//     // บันทึกลงฐานข้อมูล
-//     await prisma.imageUpload.create({
-//       data: {
-//         filename: req.file.filename,
-//         result: resultJson.result,
-//         confidence: resultJson.confidence,
-//       },
-//     });
-
-//     res.json(resultJson);
-//   });
-// });
-
-// router.get("/uploads", async (req, res) => {
-//   const uploads = await prisma.imageUpload.findMany({
-//     orderBy: { uploadedAt: "desc" },
-//     take: 20,
-//   });
-//   res.json(uploads);
-// });
-
-// export default router;
-
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { PrismaClient } from "@prisma/client";
-import { spawn } from "child_process";
+import prisma from "../lib/prisma"; // ตรวจสอบว่า path ถูกต้อง
 
 const router = Router();
-const prisma = new PrismaClient();
 
-// ตั้งค่า multer ให้เก็บไฟล์ในโฟลเดอร์ /uploads
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -78,68 +14,57 @@ const upload = multer({
       cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-      // ตั้งชื่อไฟล์แบบ timestamp + original name
       const uniqueName = Date.now() + "_" + file.originalname;
       cb(null, uniqueName);
     },
   }),
 });
 
+/**
+ * API: POST /api/upload
+ * รับไฟล์ภาพ, บันทึกผลวิเคราะห์สุ่ม และเก็บลง DB
+ */
 router.post("/", upload.single("image"), async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-
-  const filepath = req.file.path; // path จริงของไฟล์บน backend
-  const filename = req.file.filename; // ชื่อไฟล์ที่เก็บจริง
-  const relativePath = `/uploads/${filename}`; // path สำหรับเก็บ DB
-
   try {
-    // บันทึก path ลง DB
-    await prisma.imageUpload.create({
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    // 1. จำลองการวิเคราะห์ (Logic เดียวกับที่คุณต้องการ)
+    const models = ["YOLOv8", "CNN-v2", "MobileNetV2", "Random Forest"];
+    const results = ["Positive", "Negative"];
+    const randomModel = models[Math.floor(Math.random() * models.length)];
+    const randomResult = results[Math.floor(Math.random() * results.length)];
+    const randomConfidence = parseFloat(
+      (Math.random() * (0.99 - 0.75) + 0.75).toFixed(2),
+    );
+
+    // 2. บันทึกลง Database ผ่าน Prisma
+    // หมายเหตุ: userId ควรดึงจาก Auth middleware แต่ที่นี่ใส่ placeholder ไว้
+    const analysis = await prisma.analysis.create({
       data: {
-        filename: relativePath,
+        userId: req.body.userId || "guest-user",
+        hn: req.body.hn || null, // 🟢 บันทึก HN ลงไป
+        modelUsed: req.body.model || randomModel,
+        result: randomResult,
+        confidence: randomConfidence,
+        detectMetadata: {}, // Placeholder สำหรับ Bounding Box ในอนาคต
+        images: {
+          create: {
+            filename: req.file.filename,
+            imageUrl: `/uploads/${req.file.filename}`,
+          },
+        },
       },
+      include: { images: true },
     });
 
-    res.json({ message: "File uploaded", path: relativePath });
-  } catch (err) {
-    console.error("DB error:", err);
-    res.status(500).json({ error: "Failed to save file info to DB" });
+    res.json(analysis);
+  } catch (error) {
+    console.error("Upload Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  
-  // // เรียก Python script วิเคราะห์
-  // const python = spawn("python3", ["path/to/model_inference.py", filepath]);
-
-  // let resultData = "";
-  // python.stdout.on("data", (data) => {
-  //   resultData += data.toString();
-  // });
-
-  // python.on("close", async (code) => {
-  //   if (code !== 0) {
-  //     // ถ้า Python error → ลบไฟล์ทิ้งแล้ว return
-  //     fs.unlinkSync(filepath);
-  //     return res.status(500).json({ error: "Model inference failed" });
-  //   }
-
-  //   let resultJson;
-  //   try {
-  //     resultJson = JSON.parse(resultData);
-  //   } catch {
-  //     resultJson = { result: "unknown", confidence: 0 };
-  //   }
-
-  //   // บันทึก path + result ลง DB
-  //   await prisma.imageUpload.create({
-  //     data: {
-  //       filename: relativePath,
-  //       result: resultJson.result,
-  //       confidence: resultJson.confidence,
-  //     },
-  //   });
-
-  //   // ✅ ไม่ลบไฟล์เลย ตอนนี้เก็บใน /uploads
-  //   res.json({ path: relativePath, ...resultJson });
-  // });
 });
+
+// ประวัติ
+
 
 export default router;

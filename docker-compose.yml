@@ -1,20 +1,20 @@
-name: malAIria # You can also change this to another name to avoid warning with existing group. 
+name: malairia # You can also change this to another name to avoid warning with existing group. 
 services:
-  backend:
-    container_name: ml-backend
-    build: ./backend
-    ports:
-      - ${PORT}:3000
-    networks:
-      - ml-net
-    environment:
-      # - POSTGRES_DB=${POSTGRES_DB}
-      # - POSTGRES_PORT=${POSTGRES_PORT}
-      # - POSTGRES_HOST=${POSTGRES_HOST}
-      # - POSTGRES_APP_USER=${POSTGRES_APP_USER}
-      # - POSTGRES_APP_PASSWORD=${POSTGRES_APP_PASSWORD}
-      DATABASE_URL: ${DATABASE_URL}
-    command: sh -c "npx prisma generate && npm run start"
+  # backend:
+  #   container_name: ml-backend
+  #   build: ./backend
+  #   ports:
+  #     - ${PORT}:3000
+  #   networks:
+  #     - ml-net
+  #   environment:
+  #     # - POSTGRES_DB=${POSTGRES_DB}
+  #     # - POSTGRES_PORT=${POSTGRES_PORT}
+  #     # - POSTGRES_HOST=${POSTGRES_HOST}
+  #     # - POSTGRES_APP_USER=${POSTGRES_APP_USER}
+  #     # - POSTGRES_APP_PASSWORD=${POSTGRES_APP_PASSWORD}
+  #     DATABASE_URL: ${DATABASE_URL}
+  #   command: sh -c "npx prisma generate && npm run start"
 
   
   postgres:

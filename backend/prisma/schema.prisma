@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
   provider = "prisma-client-js"
   // output   = "../generated/prisma"
@@ -15,20 +14,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ImageUpload {
-  id           Int      @id @default(autoincrement())
-  filename     String
-  uploadedAt   DateTime @default(now())
-  result       String?  // JSON หรือข้อความผลวิเคราะห์จากโมเดล
-  confidence   Float?   // ความมั่นใจของโมเดล (ถ้ามี)
-}
-
 // model ImageUpload {
 //   id           Int      @id @default(autoincrement())
 //   filename     String
-//   filepath     String   // เก็บ path ไฟล์แทน
 //   uploadedAt   DateTime @default(now())
-//   result       String?
-//   confidence   Float?
+//   result       String?  // JSON หรือข้อความผลวิเคราะห์จากโมเดล
+//   confidence   Float?   // ความมั่นใจของโมเดล (ถ้ามี)
 // }
 
+model User {
+  id        String   @id
+  email     String   @unique
+  name      String?
+  avatar    String?
+  provider  String // "google"
+  createdAt DateTime @default(now())
+
+  analyses Analysis[]
+}
+
+model Analysis {
+  id             Int      @id @default(autoincrement())
+  userId         String
+  hn             String?
+  modelUsed      String // YOLOv8, CNN-v2
+  result         String // Positive / Negative
+  detectMetadata Json // ตำแหน่งของเชื้อในภาพ
+  confidence     Float?
+  createdAt      DateTime @default(now())
+
+  user   User          @relation(fields: [userId], references: [id])
+  images ImageUpload[]
+}
+
+model ImageUpload {
+  id         Int      @id @default(autoincrement())
+  analysisId Int
+  filename   String
+  imageUrl   String
+  uploadedAt DateTime @default(now())
+
+  analysis Analysis @relation(fields: [analysisId], references: [id])
+}
