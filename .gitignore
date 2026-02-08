@@ -2,3 +2,6 @@ node_modules
 # Keep environment variables out of version control
 
 backend/firebase-service-account.json.json
+.vercel
+.env
+.env*.local
