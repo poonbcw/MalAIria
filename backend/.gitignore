@@ -8,3 +8,5 @@ dist
 /generated/prisma
 
 firebase-service-account.json
+
+uploads/
